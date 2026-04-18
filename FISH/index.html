@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Peixateria Bastida — Peix fresc del dia.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=JetBrains+Mono:wght@300;400;500;700&family=Archivo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1210;
+  --ink-2:#2a1a18;
+  --bone:#f4ece2;
+  --bone-2:#ead9c6;
+  --paper:#faf3e8;
+  --coral:#d8272b;
+  --coral-2:#b31e22;
+  --tide:#6b1418;
+  --foam:#f3d9d2;
+  --mint:#e9b4a8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;font-family:'Archivo',sans-serif;overflow-x:hidden}
+html{scroll-behavior:smooth}
+body{font-size:16px;line-height:1.5}
+.mono{font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.04em}
+.serif{font-family:'Fraunces',serif;font-weight:400}
+.italic{font-style:italic}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+img{display:block;max-width:100%}
+
+/* ====== TICKER ====== */
+.ticker{background:var(--ink);color:var(--bone);padding:10px 0;overflow:hidden;position:relative;z-index:50;border-bottom:1px solid #3a0d0f}
+.ticker-track{display:flex;gap:48px;white-space:nowrap;animation:ticker 40s linear infinite;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase}
+.ticker-track span{display:inline-flex;align-items:center;gap:12px}
+.ticker-track .dot{width:6px;height:6px;border-radius:50%;background:var(--coral);display:inline-block}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ====== NAV ====== */
+nav.top{position:sticky;top:0;z-index:40;background:var(--paper);backdrop-filter:blur(8px);border-bottom:1px solid rgba(11,31,51,0.1)}
+.nav-inner{max-width:1600px;margin:0 auto;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{font-family:'Fraunces',serif;font-weight:400;font-size:28px;letter-spacing:-0.02em;display:flex;align-items:baseline;gap:4px}
+.logo-mark{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--coral);margin-right:6px;transform:translateY(-4px)}
+.nav-links{display:flex;gap:28px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase}
+.nav-links a{position:relative;padding:6px 0}
+.nav-links a:hover::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--ink)}
+.nav-right{display:flex;align-items:center;gap:20px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase}
+.cart-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--ink);border-radius:999px;transition:all 0.2s}
+.cart-btn:hover{background:var(--ink);color:var(--bone)}
+.cart-count{background:var(--coral);color:white;border-radius:999px;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:10px}
+
+/* ====== HERO ====== */
+.hero{position:relative;min-height:92vh;padding:40px 32px 60px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.hero-meta{display:flex;justify-content:space-between;align-items:flex-start;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);opacity:0.7}
+.hero-meta .col{max-width:240px}
+.hero-title{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(72px,16vw,260px);line-height:0.85;letter-spacing:-0.04em;color:var(--ink);margin:20px 0;position:relative}
+.hero-title .line{display:block;overflow:hidden}
+.hero-title .char{display:inline-block;transform:translateY(110%);transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+.hero-title.in .char{transform:translateY(0)}
+.hero-title .italic{font-style:italic;font-weight:400;color:var(--coral)}
+.hero-title .amp{font-style:italic;font-weight:300;font-size:0.7em;color:var(--tide);vertical-align:0.1em;padding:0 0.05em}
+.hero-footer{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;align-items:end;padding-top:40px;border-top:1px solid var(--ink)}
+.hero-footer p{font-family:'Fraunces',serif;font-size:18px;line-height:1.35;max-width:36ch}
+.hero-cta{display:inline-flex;align-items:center;gap:14px;padding:18px 28px;background:var(--ink);color:var(--bone);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.25s;justify-self:end}
+.hero-cta:hover{background:var(--coral);transform:translate(2px,-2px)}
+.hero-cta .arrow{width:20px;height:20px;border-radius:50%;background:var(--coral);display:inline-flex;align-items:center;justify-content:center;color:white;font-size:10px}
+.hero-cta:hover .arrow{background:var(--ink)}
+
+/* floating stamp */
+.stamp{position:absolute;top:48%;right:6%;width:160px;height:160px;border-radius:50%;border:1px solid var(--ink);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-style:italic;font-size:18px;color:var(--ink);transform:rotate(-12deg);background:var(--paper);z-index:2;animation:float 6s ease-in-out infinite}
+.stamp .rot{position:absolute;inset:0;animation:spin 22s linear infinite}
+.stamp svg{width:100%;height:100%}
+.stamp .center{position:absolute;width:14px;height:14px;background:var(--coral);border-radius:50%}
+@keyframes float{0%,100%{transform:rotate(-12deg) translateY(0)}50%{transform:rotate(-8deg) translateY(-8px)}}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+/* fish illustration - abstract */
+.hero-fish{position:absolute;right:-40px;top:18%;width:42%;height:auto;pointer-events:none;z-index:1;opacity:0.95}
+
+/* ====== SCROLL MARQUEE SECTION ====== */
+.marquee{background:var(--ink);color:var(--bone);padding:28px 0;overflow:hidden;border-top:1px solid #3a0d0f;border-bottom:1px solid #3a0d0f}
+.marquee-track{display:flex;gap:48px;white-space:nowrap;animation:ticker 30s linear infinite;font-family:'Fraunces',serif;font-weight:400;font-style:italic;font-size:64px;line-height:1}
+.marquee-track .dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--coral);margin:0 24px;vertical-align:middle}
+.marquee-track .strike{color:transparent;-webkit-text-stroke:1px var(--bone)}
+
+/* ====== CATCH TODAY (horizontal scroll slides) ====== */
+.catch{padding:120px 32px 80px;background:var(--paper);position:relative}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:64px;flex-wrap:wrap;gap:24px}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--coral);display:inline-flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--coral)}
+.section-title{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(48px,7vw,112px);line-height:0.95;letter-spacing:-0.03em;margin-top:12px;max-width:14ch}
+.section-title .it{font-style:italic;color:var(--tide)}
+.section-sub{font-family:'Fraunces',serif;font-size:20px;max-width:38ch;line-height:1.4;align-self:end}
+
+.catch-rail{display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:32px;scrollbar-width:thin;scrollbar-color:var(--ink) transparent;margin:0 -32px;padding-left:32px;padding-right:32px}
+.catch-rail::-webkit-scrollbar{height:4px}
+.catch-rail::-webkit-scrollbar-track{background:var(--bone-2)}
+.catch-rail::-webkit-scrollbar-thumb{background:var(--ink)}
+.fish-card{flex:0 0 420px;scroll-snap-align:start;background:var(--bone);border-radius:24px;overflow:hidden;position:relative;transition:transform 0.4s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column}
+.fish-card:hover{transform:translateY(-6px)}
+.fish-card .img{aspect-ratio:4/5;background:var(--foam);position:relative;overflow:hidden}
+.fish-card .img svg{position:absolute;inset:0;width:100%;height:100%}
+.fish-card .tag{position:absolute;top:16px;left:16px;background:var(--paper);padding:6px 12px;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;z-index:2}
+.fish-card .tag .pulse{width:6px;height:6px;border-radius:50%;background:var(--coral);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.4)}}
+.fish-card .price-badge{position:absolute;top:16px;right:16px;background:var(--ink);color:var(--bone);padding:10px 14px;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.05em;z-index:2}
+.fish-card .body{padding:24px;display:flex;flex-direction:column;gap:12px;flex:1}
+.fish-card .latin{font-family:'Fraunces',serif;font-style:italic;font-size:13px;color:var(--tide);letter-spacing:0.01em}
+.fish-card .name{font-family:'Fraunces',serif;font-weight:400;font-size:36px;line-height:1;letter-spacing:-0.02em}
+.fish-card .name .it{font-style:italic;color:var(--coral)}
+.fish-card .meta{display:flex;gap:16px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);opacity:0.7;flex-wrap:wrap}
+.fish-card .meta span{display:inline-flex;align-items:center;gap:6px}
+.fish-card .meta span::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--coral)}
+.fish-card .add{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid rgba(11,31,51,0.12)}
+.fish-card .add-btn{padding:12px 18px;background:var(--ink);color:var(--bone);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;transition:all 0.2s}
+.fish-card .add-btn:hover{background:var(--coral)}
+.fish-card .add-btn .plus{width:18px;height:18px;border-radius:50%;background:var(--coral);display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:white}
+.fish-card .add-btn:hover .plus{background:var(--ink)}
+.fish-card .origin{font-family:'Fraunces',serif;font-style:italic;font-size:13px;color:var(--ink);opacity:0.7}
+
+.rail-controls{display:flex;gap:12px;margin-top:24px}
+.rail-btn{width:56px;height:56px;border-radius:50%;border:1px solid var(--ink);display:inline-flex;align-items:center;justify-content:center;transition:all 0.2s;background:transparent}
+.rail-btn:hover{background:var(--ink);color:var(--bone)}
+.rail-progress{flex:1;height:1px;background:rgba(11,31,51,0.15);align-self:center;position:relative;max-width:400px;margin:0 20px}
+.rail-progress .bar{position:absolute;left:0;top:0;height:100%;background:var(--ink);width:0%;transition:width 0.3s}
+
+/* ====== REVEAL COPY ====== */
+.reveal-section{padding:140px 32px;background:var(--ink);color:var(--bone);position:relative;overflow:hidden}
+.reveal-section .bg-word{position:absolute;right:-5%;top:10%;font-family:'Fraunces',serif;font-style:italic;font-size:clamp(180px,32vw,520px);line-height:0.8;color:#3a0d0f;opacity:0.8;font-weight:300;pointer-events:none;user-select:none}
+.reveal-wrap{max-width:1600px;margin:0 auto;position:relative;z-index:2}
+.reveal-eyebrow{color:var(--coral)}
+.reveal-text{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(36px,5vw,84px);line-height:1.05;letter-spacing:-0.02em;max-width:20ch;margin-top:20px}
+.reveal-text .word{display:inline-block;opacity:0.18;transition:opacity 0.5s ease;margin-right:0.2em}
+.reveal-text .word.lit{opacity:1}
+.reveal-text .word.coral{color:var(--coral)}
+.reveal-text .word.it{font-style:italic;color:var(--mint)}
+.reveal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;margin-top:120px;padding-top:60px;border-top:1px solid rgba(242,237,227,0.2)}
+.reveal-grid .item .num{font-family:'Fraunces',serif;font-style:italic;font-size:56px;color:var(--coral);line-height:1}
+.reveal-grid .item h4{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;margin:18px 0 12px;color:var(--mint)}
+.reveal-grid .item p{font-family:'Fraunces',serif;font-size:18px;line-height:1.4;color:var(--bone)}
+
+/* ====== PROCESS (horizontal slides numbered) ====== */
+.process{padding:140px 0 100px;background:var(--paper);position:relative}
+.process .head{padding:0 32px;max-width:1600px;margin:0 auto}
+.process-rail{display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;margin-top:80px;scrollbar-width:none}
+.process-rail::-webkit-scrollbar{display:none}
+.process-slide{flex:0 0 100vw;scroll-snap-align:start;padding:0 32px;display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:center;min-height:72vh}
+.process-slide .visual{aspect-ratio:4/3;background:var(--bone);border-radius:32px;position:relative;overflow:hidden}
+.process-slide .visual .big-num{position:absolute;left:32px;top:24px;font-family:'Fraunces',serif;font-style:italic;font-size:240px;line-height:1;color:var(--paper);font-weight:300}
+.process-slide .content h3{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(42px,5vw,80px);line-height:0.95;letter-spacing:-0.02em;margin-bottom:24px}
+.process-slide .content h3 .it{font-style:italic;color:var(--coral)}
+.process-slide .content .step{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tide);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.process-slide .content .step-num{background:var(--ink);color:var(--bone);padding:4px 10px;border-radius:4px}
+.process-slide .content p{font-family:'Fraunces',serif;font-size:22px;line-height:1.4;max-width:32ch;margin-bottom:24px}
+.process-slide .content .meta-list{display:flex;flex-direction:column;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;padding-top:20px;border-top:1px solid rgba(11,31,51,0.2)}
+.process-slide .content .meta-list div{display:flex;justify-content:space-between}
+.process-slide .content .meta-list .v{color:var(--tide)}
+
+.process-nav{display:flex;justify-content:space-between;align-items:center;padding:40px 32px 0;max-width:1600px;margin:0 auto}
+.process-dots{display:flex;gap:10px}
+.process-dots button{width:32px;height:4px;border-radius:2px;background:rgba(11,31,51,0.2);transition:all 0.3s}
+.process-dots button.active{background:var(--ink);width:64px}
+
+/* ====== BIG LETTER REVEAL ====== */
+.letters{padding:180px 32px;background:var(--coral);color:var(--ink);text-align:center;overflow:hidden;position:relative}
+.letters .line{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(120px,22vw,360px);line-height:0.85;letter-spacing:-0.04em;margin:0}
+.letters .line .char{display:inline-block;transform:translateY(100%);opacity:0;transition:transform 0.8s cubic-bezier(.2,.8,.2,1),opacity 0.8s}
+.letters .line.in .char{transform:translateY(0);opacity:1}
+.letters .line .it{font-style:italic}
+.letters .tag{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;margin-top:40px}
+.letters .deco{position:absolute;top:40px;left:40px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.letters .deco.r{left:auto;right:40px}
+.letters .deco .bullet{width:8px;height:8px;background:var(--ink);border-radius:50%}
+
+/* ====== JOURNAL / RECIPES ====== */
+.journal{padding:140px 32px;background:var(--paper)}
+.journal-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:auto auto;gap:20px;max-width:1600px;margin:60px auto 0}
+.j-card{background:var(--bone);border-radius:24px;overflow:hidden;position:relative;min-height:340px;cursor:pointer;transition:transform 0.3s}
+.j-card:hover{transform:translateY(-4px)}
+.j-card.big{grid-row:span 2}
+.j-card .img{position:absolute;inset:0;background:var(--foam)}
+.j-card .img svg{width:100%;height:100%}
+.j-card .content{position:absolute;inset:0;padding:32px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(to top, rgba(11,31,51,0.9) 0%, rgba(11,31,51,0.2) 50%, transparent 100%);color:var(--bone)}
+.j-card .kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--coral);margin-bottom:12px}
+.j-card h4{font-family:'Fraunces',serif;font-weight:400;font-size:28px;line-height:1.05;letter-spacing:-0.01em;max-width:18ch}
+.j-card.big h4{font-size:44px;max-width:14ch}
+.j-card .meta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;margin-top:14px;opacity:0.7}
+
+/* ====== SUBSCRIBE ====== */
+.subscribe{padding:140px 32px;background:var(--ink);color:var(--bone);position:relative;overflow:hidden}
+.sub-wrap{max-width:1200px;margin:0 auto;text-align:center;position:relative;z-index:2}
+.sub-title{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(48px,8vw,140px);line-height:0.9;letter-spacing:-0.03em}
+.sub-title .it{font-style:italic;color:var(--coral)}
+.sub-title .strike{color:transparent;-webkit-text-stroke:1px var(--bone)}
+.sub-form{margin-top:48px;display:flex;gap:12px;max-width:560px;margin-left:auto;margin-right:auto;background:rgba(242,237,227,0.08);padding:8px;border-radius:999px;border:1px solid rgba(242,237,227,0.2)}
+.sub-form input{flex:1;background:transparent;border:none;padding:14px 24px;color:var(--bone);font-family:'Fraunces',serif;font-size:18px;outline:none}
+.sub-form input::placeholder{color:rgba(242,237,227,0.4);font-style:italic}
+.sub-form button{background:var(--coral);color:white;padding:14px 28px;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;transition:all 0.2s}
+.sub-form button:hover{background:var(--bone);color:var(--ink)}
+.sub-note{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;opacity:0.5;margin-top:20px}
+.sub-wave{position:absolute;bottom:-50px;left:0;right:0;height:200px;opacity:0.08}
+
+/* ====== FOOTER ====== */
+footer{background:var(--ink);color:var(--bone);padding:80px 32px 40px;border-top:1px solid #3a0d0f}
+.foot{max-width:1600px;margin:0 auto}
+.foot-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;padding-bottom:60px}
+.foot-logo{font-family:'Fraunces',serif;font-size:clamp(80px,14vw,200px);line-height:0.85;letter-spacing:-0.04em;font-weight:300}
+.foot-logo .it{font-style:italic;color:var(--coral)}
+.foot h5{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:20px;color:var(--mint)}
+.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;font-family:'Fraunces',serif;font-size:17px}
+.foot-col ul a:hover{color:var(--coral)}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid rgba(242,237,227,0.15);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(242,237,227,0.6);flex-wrap:wrap;gap:20px}
+
+/* ====== CART DRAWER ====== */
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,92vw);background:var(--paper);z-index:100;transform:translateX(100%);transition:transform 0.5s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;box-shadow:-30px 0 60px rgba(11,31,51,0.12)}
+.drawer.open{transform:translateX(0)}
+.drawer-overlay{position:fixed;inset:0;background:rgba(11,31,51,0.4);z-index:99;opacity:0;pointer-events:none;transition:opacity 0.4s}
+.drawer-overlay.open{opacity:1;pointer-events:auto}
+.drawer-head{padding:24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(11,31,51,0.1)}
+.drawer-head h3{font-family:'Fraunces',serif;font-weight:400;font-size:28px}
+.drawer-head h3 .it{font-style:italic;color:var(--coral)}
+.drawer-close{width:36px;height:36px;border-radius:50%;border:1px solid var(--ink);display:flex;align-items:center;justify-content:center}
+.drawer-close:hover{background:var(--ink);color:var(--bone)}
+.drawer-body{flex:1;overflow-y:auto;padding:24px}
+.cart-empty{text-align:center;padding:60px 20px;font-family:'Fraunces',serif;font-style:italic;font-size:20px;color:var(--tide)}
+.cart-item{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid rgba(11,31,51,0.1)}
+.cart-item .thumb{width:72px;height:72px;background:var(--bone);border-radius:12px;flex-shrink:0}
+.cart-item .info{flex:1}
+.cart-item .n{font-family:'Fraunces',serif;font-weight:400;font-size:18px}
+.cart-item .p{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--tide);margin-top:4px}
+.cart-item .qty{display:inline-flex;align-items:center;gap:10px;margin-top:8px;border:1px solid var(--ink);border-radius:999px;padding:4px}
+.cart-item .qty button{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px}
+.cart-item .qty button:hover{background:var(--ink);color:var(--bone)}
+.cart-item .qty span{font-family:'JetBrains Mono',monospace;font-size:13px;min-width:20px;text-align:center}
+.cart-item .rm{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--tide);align-self:flex-start;padding:4px;text-decoration:underline;text-underline-offset:3px}
+.drawer-foot{padding:24px;border-top:1px solid rgba(11,31,51,0.1);background:var(--bone)}
+.total-row{display:flex;justify-content:space-between;align-items:baseline;font-family:'Fraunces',serif}
+.total-row .l{font-size:14px;font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--tide)}
+.total-row .v{font-size:32px;font-weight:400}
+.checkout{width:100%;margin-top:20px;padding:18px;background:var(--ink);color:var(--bone);border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;transition:all 0.2s}
+.checkout:hover{background:var(--coral)}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width:900px){
+  .nav-links{display:none}
+  .hero-footer{grid-template-columns:1fr}
+  .hero-cta{justify-self:start}
+  .hero-fish{width:80%;right:-20%;top:30%;opacity:0.5}
+  .stamp{display:none}
+  .reveal-grid{grid-template-columns:1fr 1fr;gap:32px}
+  .process-slide{grid-template-columns:1fr;gap:32px;padding:40px 24px}
+  .process-slide .visual{aspect-ratio:1/1}
+  .journal-grid{grid-template-columns:1fr}
+  .j-card.big{grid-row:auto}
+  .foot-top{grid-template-columns:1fr 1fr;gap:32px}
+  .fish-card{flex:0 0 300px}
+}
+
+/* utility fade-in on scroll */
+.fade-up{opacity:0;transform:translateY(30px);transition:opacity 0.9s cubic-bezier(.2,.8,.2,1),transform 0.9s cubic-bezier(.2,.8,.2,1)}
+.fade-up.in{opacity:1;transform:translateY(0)}
+.fade-up.d1{transition-delay:0.1s}.fade-up.d2{transition-delay:0.2s}.fade-up.d3{transition-delay:0.3s}.fade-up.d4{transition-delay:0.4s}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span><span class="dot"></span> FRESC DEL DIA · ENTREGAT AL MERCAT AL MATÍ · 19 ABR 26</span>
+    <span><span class="dot"></span> ENVIAMENT A DOMICILI GRATIS A PARTIR DE 45€</span>
+    <span><span class="dot"></span> SERVEI BLW PER ALS MÉS PETITS · SENSE ESPINES</span>
+    <span><span class="dot"></span> ATENCIÓ PERSONALITZADA · TALLEM AL TEU GUST</span>
+    <span><span class="dot"></span> FRESC DEL DIA · ENTREGAT AL MERCAT AL MATÍ · 19 ABR 26</span>
+    <span><span class="dot"></span> ENVIAMENT A DOMICILI GRATIS A PARTIR DE 45€</span>
+    <span><span class="dot"></span> SERVEI BLW PER ALS MÉS PETITS · SENSE ESPINES</span>
+    <span><span class="dot"></span> ATENCIÓ PERSONALITZADA · TALLEM AL TEU GUST</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="top">
+  <div class="nav-inner">
+    <div class="logo"><span class="logo-mark"></span>Bastida<span style="color:var(--coral)">.</span></div>
+    <div class="nav-links">
+      <a href="#catch">Peix del dia</a>
+      <a href="#story">Nosaltres</a>
+      <a href="#process">Com ho fem</a>
+      <a href="#journal">Receptari</a>
+      <a href="#">BLW Nens</a>
+    </div>
+    <div class="nav-right">
+      <a href="#">Compte</a>
+      <button class="cart-btn" onclick="openCart()">
+        <span>Cistell</span>
+        <span class="cart-count" id="cartCount">3</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-meta">
+    <div class="col">
+      <div style="font-family:'Fraunces',serif;font-style:italic;font-size:16px;text-transform:none;letter-spacing:0;color:var(--ink);opacity:1;margin-bottom:6px">Núm. 004</div>
+      Edició de Primavera · Vol. IV<br/>Mercat Central · Parada 37
+    </div>
+    <div class="col" style="text-align:right">
+      Diumenge 19 d'Abril<br/>
+      Obert fins a les 14h<br/>
+      Enviaments avui · 17–20h
+    </div>
+  </div>
+
+  <!-- abstract fish SVG -->
+  <svg class="hero-fish" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="fg" x1="0" x2="1">
+        <stop offset="0" stop-color="#1a1210"/>
+        <stop offset="1" stop-color="#d8272b"/>
+      </linearGradient>
+      <pattern id="scales" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+        <path d="M0 10 Q5 0 10 10 T20 10" stroke="#f4ece2" fill="none" stroke-width="0.6" opacity="0.5"/>
+      </pattern>
+    </defs>
+    <g>
+      <!-- fish body -->
+      <path d="M60 200 Q120 80 320 110 Q480 130 540 180 Q560 200 540 220 Q480 270 320 290 Q120 320 60 200 Z" fill="url(#fg)"/>
+      <path d="M60 200 Q120 80 320 110 Q480 130 540 180 Q560 200 540 220 Q480 270 320 290 Q120 320 60 200 Z" fill="url(#scales)"/>
+      <!-- tail -->
+      <path d="M540 180 L600 120 L590 200 L600 280 L540 220 Z" fill="#1a1210"/>
+      <!-- fins -->
+      <path d="M280 180 Q300 240 260 250 Q240 230 280 180 Z" fill="#2a1a18"/>
+      <path d="M300 120 Q320 80 360 100 Q340 130 300 120 Z" fill="#2a1a18"/>
+      <!-- eye -->
+      <circle cx="130" cy="195" r="10" fill="#f4ece2"/>
+      <circle cx="132" cy="196" r="5" fill="#1a1210"/>
+      <circle cx="131" cy="194" r="1.5" fill="#f4ece2"/>
+      <!-- gill line -->
+      <path d="M170 160 Q180 200 170 240" stroke="#f4ece2" stroke-width="1" fill="none" opacity="0.4"/>
+      <!-- coral accent splash -->
+      <circle cx="80" cy="180" r="4" fill="#d8272b"/>
+      <circle cx="480" cy="250" r="3" fill="#d8272b"/>
+    </g>
+  </svg>
+
+  <!-- stamp -->
+  <div class="stamp">
+    <svg class="rot" viewBox="0 0 200 200" aria-hidden="true">
+      <defs>
+        <path id="cp" d="M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0" />
+      </defs>
+      <text font-family="JetBrains Mono" font-size="11" letter-spacing="3" fill="#1a1210">
+        <textPath href="#cp">FRESC DEL DIA · DEL MERCAT A CASA · FRESC DEL DIA · DEL MERCAT ·</textPath>
+      </text>
+    </svg>
+    <div class="center"></div>
+  </div>
+
+  <h1 class="hero-title" id="heroTitle">
+    <span class="line"><span class="char">D</span><span class="char">e</span><span class="char">l</span></span>
+    <span class="line"><span class="char">m</span><span class="char">e</span><span class="char">r</span><span class="char">c</span><span class="char">a</span><span class="char">t</span><span class="amp">&amp;</span><span class="char italic">a</span><span class="amp">&nbsp;</span><span class="char italic">c</span><span class="char italic">a</span><span class="char italic">s</span><span class="char italic">a</span><span class="char">.</span></span>
+  </h1>
+
+  <div class="hero-footer">
+    <p class="serif">Triem el millor peix del mercat cada matí, el preparem al teu gust i t'ho portem a casa el mateix dia. <em>Atenció de tota la vida, servei d'ara mateix.</em></p>
+    <p class="mono" style="font-size:11px;opacity:0.7;align-self:end">
+      ÍNDEX /<br/>
+      01 &nbsp; Peix del dia<br/>
+      02 &nbsp; Nosaltres<br/>
+      03 &nbsp; Com ho fem<br/>
+      04 &nbsp; BLW &amp; Receptari
+    </p>
+    <a href="#catch" class="hero-cta">Veure peix d'avui <span class="arrow">→</span></a>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>fresc</span><span class="dot"></span>
+    <span class="strike italic">del dia</span><span class="dot"></span>
+    <span>a domicili</span><span class="dot"></span>
+    <span class="italic">sense espines</span><span class="dot"></span>
+    <span>BLW</span><span class="dot"></span>
+    <span class="strike">al teu gust</span><span class="dot"></span>
+    <span>fresc</span><span class="dot"></span>
+    <span class="strike italic">del dia</span><span class="dot"></span>
+    <span>a domicili</span><span class="dot"></span>
+    <span class="italic">sense espines</span><span class="dot"></span>
+    <span>BLW</span><span class="dot"></span>
+    <span class="strike">al teu gust</span><span class="dot"></span>
+  </div>
+</div>
+
+<!-- CATCH TODAY -->
+<section class="catch" id="catch">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">01 / Avui al mostrador</div>
+      <h2 class="section-title fade-up">El peix <span class="it">d'avui,</span> fins que s'acabi.</h2>
+    </div>
+    <p class="section-sub fade-up d1 serif italic">Anem al mercat cada matí a les 5h i triem una per una les millors peces. El que veus aquí és el que tenim. Ho tallem com vulguis i t'ho portem a casa.</p>
+  </div>
+
+  <div class="catch-rail" id="catchRail">
+    <!-- cards injected by JS -->
+  </div>
+
+  <div class="rail-controls">
+    <button class="rail-btn" onclick="scrollRail(-1)" aria-label="Previous">←</button>
+    <button class="rail-btn" onclick="scrollRail(1)" aria-label="Next">→</button>
+    <div class="rail-progress"><div class="bar" id="railBar"></div></div>
+    <div class="mono" style="font-size:11px;opacity:0.6" id="railCount">01 / 08</div>
+  </div>
+</section>
+
+<!-- REVEAL COPY -->
+<section class="reveal-section" id="story">
+  <span class="bg-word" aria-hidden="true">bastida</span>
+  <div class="reveal-wrap">
+    <div class="eyebrow reveal-eyebrow">02 / Qui som</div>
+    <p class="reveal-text" id="revealText" data-text="Som tres generacions triant peix. Coneixem al pescater de tota la vida i triem, peça a peça, el que val la pena. Això és tot — però és molt."></p>
+    <div class="reveal-grid">
+      <div class="item fade-up"><div class="num">1962</div><h4>Any d'obertura</h4><p>Tres generacions darrere del mostrador. L'àvia Roseta ens ensenya a triar encara.</p></div>
+      <div class="item fade-up d1"><div class="num">05h</div><h4>Al mercat cada matí</h4><p>Hi som abans que obri. Triem el peix quan encara brilla, peça a peça, amb criteri.</p></div>
+      <div class="item fade-up d2"><div class="num">2h</div><h4>Del mostrador a casa</h4><p>Entrega a domicili en 2h per Barcelona ciutat. Sempre amb gel, sempre fred, sempre fresc.</p></div>
+      <div class="item fade-up d3"><div class="num">BLW</div><h4>Servei per als nens</h4><p>Preparem el peix sense espines ni pell, tallat en bastonets aptes per a BLW. Especial 6+ mesos.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="head">
+    <div class="eyebrow">03 / Com funciona</div>
+    <h2 class="section-title fade-up">Quatre <span class="it">passos,</span> un peix.</h2>
+  </div>
+
+  <div class="process-rail" id="procRail">
+    <!-- slides injected -->
+  </div>
+
+  <div class="process-nav">
+    <div class="process-dots" id="procDots"></div>
+    <div style="display:flex;gap:12px">
+      <button class="rail-btn" onclick="scrollProc(-1)" aria-label="Previous">←</button>
+      <button class="rail-btn" onclick="scrollProc(1)" aria-label="Next">→</button>
+    </div>
+  </div>
+</section>
+
+<!-- LETTERS -->
+<section class="letters">
+  <div class="deco"><span class="bullet"></span> Des de 1962 · Peixateria de barri</div>
+  <div class="deco r">Mercat Central · Parada 37 <span class="bullet"></span></div>
+  <p class="line" id="l1">
+    <span class="char">P</span><span class="char">E</span><span class="char">I</span><span class="char">X</span>
+  </p>
+  <p class="line" id="l2">
+    <span class="char it">f</span><span class="char it">r</span><span class="char it">e</span><span class="char it">s</span><span class="char it">c</span><span class="char">.</span>
+  </p>
+  <div class="tag">del mercat · a domicili · al teu gust</div>
+</section>
+
+<!-- JOURNAL -->
+<section class="journal" id="journal">
+  <div class="section-head" style="max-width:1600px;margin:0 auto 40px">
+    <div>
+      <div class="eyebrow">04 / Receptari &amp; BLW</div>
+      <h2 class="section-title fade-up">Cuinar, <span class="it">a poc a poc.</span></h2>
+    </div>
+    <p class="section-sub fade-up d1 serif italic">Receptes fàcils, guies per a nens i trucs de casa. Escrit per qui tria el peix cada matí.</p>
+  </div>
+
+  <div class="journal-grid">
+    <a class="j-card big fade-up" href="#">
+      <div class="img">
+        <svg viewBox="0 0 600 800" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="j1" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#d8272b"/><stop offset="1" stop-color="#1a1210"/>
+            </linearGradient>
+          </defs>
+          <rect width="600" height="800" fill="url(#j1)"/>
+          <g stroke="#f3d9d2" stroke-width="0.4" fill="none" opacity="0.4">
+            <path d="M0 100 Q150 80 300 120 T600 100"/>
+            <path d="M0 200 Q150 180 300 220 T600 200"/>
+            <path d="M0 300 Q150 280 300 320 T600 300"/>
+            <path d="M0 400 Q150 380 300 420 T600 400"/>
+            <path d="M0 500 Q150 480 300 520 T600 500"/>
+            <path d="M0 600 Q150 580 300 620 T600 600"/>
+            <path d="M0 700 Q150 680 300 720 T600 700"/>
+          </g>
+          <circle cx="480" cy="180" r="60" fill="#d8272b" opacity="0.9"/>
+        </svg>
+      </div>
+      <div class="content">
+        <div class="kicker">BLW · 6 min de lectura</div>
+        <h4>Peix per als més petits: quin triar, com preparar-lo, pas a pas</h4>
+        <div class="meta">Per Marta B. · Pescatera i mare · 9 d'Abril</div>
+      </div>
+    </a>
+    <a class="j-card fade-up d1" href="#">
+      <div class="img">
+        <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
+          <rect width="400" height="400" fill="#ead9c6"/>
+          <circle cx="200" cy="200" r="120" fill="#d8272b"/>
+          <circle cx="200" cy="200" r="80" fill="#f4ece2"/>
+          <circle cx="200" cy="200" r="40" fill="#1a1210"/>
+        </svg>
+      </div>
+      <div class="content">
+        <div class="kicker">Recepta · 25 min</div>
+        <h4>Llobarro sencer a la sal, llimona i fulles de llorer</h4>
+        <div class="meta">Per a 4 · 12 d'Abril</div>
+      </div>
+    </a>
+    <a class="j-card fade-up d2" href="#">
+      <div class="img">
+        <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
+          <rect width="400" height="400" fill="#1a1210"/>
+          <g stroke="#d8272b" stroke-width="2" fill="none">
+            <circle cx="200" cy="200" r="40"/><circle cx="200" cy="200" r="80"/>
+            <circle cx="200" cy="200" r="120"/><circle cx="200" cy="200" r="160"/>
+          </g>
+        </svg>
+      </div>
+      <div class="content">
+        <div class="kicker">Diari · 3 min</div>
+        <h4>Com triem el peix al mercat: 5 coses que sempre mirem</h4>
+        <div class="meta">L'equip · 14 d'Abril</div>
+      </div>
+    </a>
+    <a class="j-card fade-up d2" href="#">
+      <div class="img">
+        <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
+          <rect width="400" height="400" fill="#f3d9d2"/>
+          <path d="M0 300 Q100 250 200 300 T400 300 L400 400 L0 400 Z" fill="#d8272b"/>
+          <path d="M0 350 Q100 310 200 350 T400 350 L400 400 L0 400 Z" fill="#1a1210"/>
+        </svg>
+      </div>
+      <div class="content">
+        <div class="kicker">Maridatges · 5 min</div>
+        <h4>Tres vins blancs de l'Empordà per a peix blau</h4>
+        <div class="meta">Maria F. · 10 d'Abril</div>
+      </div>
+    </a>
+    <a class="j-card fade-up d3" href="#">
+      <div class="img">
+        <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
+          <rect width="400" height="400" fill="#d8272b"/>
+          <g fill="#f4ece2">
+            <path d="M100 200 Q180 140 260 200 Q240 220 260 240 Q180 260 100 200 Z"/>
+            <path d="M260 200 L310 170 L305 200 L310 230 Z"/>
+            <circle cx="140" cy="195" r="5" fill="#1a1210"/>
+          </g>
+        </svg>
+      </div>
+      <div class="content">
+        <div class="kicker">Glossari</div>
+        <h4>Peixos de temporada a la Mediterrània (i com cuinar-los)</h4>
+        <div class="meta">Actualitzat cada setmana · 15 d'Abril</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- SUBSCRIBE -->
+<section class="subscribe">
+  <svg class="sub-wave" viewBox="0 0 1600 200" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 100 Q200 40 400 100 T800 100 T1200 100 T1600 100 L1600 200 L0 200 Z" fill="#d8272b"/>
+  </svg>
+  <div class="sub-wrap">
+    <div class="eyebrow" style="color:var(--coral);justify-content:center;margin:0 auto 12px">Cada divendres · el peix de cap de setmana</div>
+    <h2 class="sub-title">Rep la <span class="it">llista del dia</span></h2>
+    <h2 class="sub-title"><span class="strike">cada divendres,</span> a les 18h.</h2>
+    <form class="sub-form" onsubmit="event.preventDefault();this.querySelector('button').textContent='apuntat ✓'">
+      <input type="email" placeholder="el-teu@correu.com" required/>
+      <button type="submit">Subscriu-te</button>
+    </form>
+    <div class="sub-note">El peix del cap de setmana + una recepta + idees BLW. Sense spam. Dóna't de baixa quan vulguis.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot">
+    <div class="foot-top">
+      <div>
+        <div class="foot-logo">B<span class="it">a</span>stid<span class="it">a</span><span style="color:var(--coral)">.</span></div>
+        <p class="serif italic" style="font-size:18px;max-width:30ch;margin-top:16px;color:rgba(244,236,226,0.7)">La peixateria de tota la vida, portada al teu carrer. I al teu WhatsApp.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Botiga</h5>
+        <ul>
+          <li><a href="#">Peix del dia</a></li>
+          <li><a href="#">Marisc</a></li>
+          <li><a href="#">Preparats &amp; semielaborats</a></li>
+          <li><a href="#">BLW per a nens</a></li>
+          <li><a href="#">Targetes regal</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Bastida</h5>
+        <ul>
+          <li><a href="#">Qui som</a></li>
+          <li><a href="#">Com funciona</a></li>
+          <li><a href="#">Receptari</a></li>
+          <li><a href="#">Per a restaurants</a></li>
+          <li><a href="#">Premsa</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>On ens trobes</h5>
+        <ul>
+          <li>Mercat Central · Parada 37</li>
+          <li>08003 Barcelona</li>
+          <li>Dm–Ds · 8–14h</li>
+          <li><a href="#">hola@peixateriabastida.cat</a></li>
+          <li><a href="#">+34 932 481 962</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 Peixateria Bastida · Tots els drets reservats</div>
+      <div style="display:flex;gap:24px"><a href="#">Privacitat</a><a href="#">Condicions</a><a href="#">Enviaments</a><a href="#">Instagram</a></div>
+      <div>Fet al mercat · Barcelona</div>
+    </div>
+  </div>
+</footer>
+
+<!-- CART DRAWER -->
+<div class="drawer-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<aside class="drawer" id="cartDrawer" aria-hidden="true">
+  <div class="drawer-head">
+    <h3>El teu <span class="it">cistell</span></h3>
+    <button class="drawer-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-foot">
+    <div class="total-row">
+      <span class="l">Subtotal</span>
+      <span class="v" id="cartTotal">€0,00</span>
+    </div>
+    <div class="mono" style="font-size:10px;opacity:0.6;margin-top:6px">Enviament a domicili gratis a partir de 45€ · Sempre amb gel · Cadena de fred</div>
+    <button class="checkout">Finalitzar comanda →</button>
+  </div>
+</aside>
+
+<script src="app.js"></script>
+</body>
+</html>
